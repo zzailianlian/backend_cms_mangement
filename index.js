@@ -2,11 +2,11 @@
  * @Description: File Description
  * @FilePath: /study/temperMonkey/backend_cms_mangement/index.js
  * @LastEditors: zzz
- * @LastEditTime: 2022-04-02 16:59:46
+ * @LastEditTime: 2022-04-02 17:38:02
  */
 // ==UserScript==
-// @name         cms management
-// @name:zh-CN   cms管理
+// @name         cms backend management
+// @name:zh-CN   cms内部管理
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  cms内部管理

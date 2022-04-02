@@ -5,13 +5,15 @@
  * @LastEditTime: 2022-04-02 16:59:46
  */
 // ==UserScript==
-// @name         New Userscript
+// @name         cms management
+// @name:zh-CN   cms管理
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  try to take over the world!
-// @author       You
+// @description  cms内部管理
+// @author       zzailianlian
 // @match        http://backend.meitun-test.com/index
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=meitun-test.com
+// @license      MIT
 // @grant        GM_setValue
 // @grant        GM_getValue
 // ==/UserScript==
@@ -82,4 +84,7 @@
       }, 2000);
     }, 2000)
   })
+
+
+
 })();

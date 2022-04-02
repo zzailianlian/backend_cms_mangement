@@ -2,13 +2,13 @@
  * @Description: File Description
  * @FilePath: /study/temperMonkey/backend_cms_mangement/index.js
  * @LastEditors: zzz
- * @LastEditTime: 2022-04-02 17:38:02
+ * @LastEditTime: 2022-04-02 17:40:22
  */
 // ==UserScript==
 // @name         cms backend management
 // @name:zh-CN   cms内部管理
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  cms内部管理
 // @author       zzailianlian
 // @match        http://backend.meitun-test.com/index

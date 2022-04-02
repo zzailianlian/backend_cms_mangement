@@ -2,7 +2,7 @@
  * @Description: File Description
  * @FilePath: /study/temperMonkey/backend_cms_mangement/README.md
  * @LastEditors: zzz
- * @LastEditTime: 2022-04-02 17:06:14
+ * @LastEditTime: 2022-04-02 17:47:02
 -->
 ### **`temperMonkey脚本`** backend的cms管理 
 
@@ -28,5 +28,5 @@
 * 当然，最关键的一步确认是需要你手动确认的，以免误触
 
 ### 入口
-<!-- * [Greasy Fork](https://greasyfork.org/zh-CN/scripts/442300-splunk-search)
-* [Gist](https://gist.github.com/zzailianlian/0466db69a7cb663aea32a467c7be8f34) -->
+* [Greasy Fork](https://greasyfork.org/zh-CN/scripts/442543-cms-management)
+* [Gist](https://gist.github.com/zzailianlian/d1f17870ccf06354a9998aacd768acf8#file-cms-backend-management)

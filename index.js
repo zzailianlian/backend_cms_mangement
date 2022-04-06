@@ -2,13 +2,13 @@
  * @Description: File Description
  * @FilePath: /study/temperMonkey/backend_cms_mangement/index.js
  * @LastEditors: zzz
- * @LastEditTime: 2022-04-06 10:27:33
+ * @LastEditTime: 2022-04-06 11:24:35
  */
 // ==UserScript==
 // @name         cms backend management
 // @name:zh-CN   cms内部管理
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  cms内部管理
 // @author       zzailianlian
 // @match        http://backend.meitun-test.com/index
@@ -26,8 +26,8 @@
     const wrapperToolsContainer = $('<div id="wrapperToolsContainer"></div>')
     wrapperToolsContainer.css({
       position: 'fixed',
-      top: '200px',
-      right: 200,
+      top: 50,
+      right: 100,
       padding: '12px',
       background: '#3498db',
       borderRadius: '4px',

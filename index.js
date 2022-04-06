@@ -2,17 +2,16 @@
  * @Description: File Description
  * @FilePath: /study/temperMonkey/backend_cms_mangement/index.js
  * @LastEditors: zzz
- * @LastEditTime: 2022-04-06 11:24:35
+ * @LastEditTime: 2022-04-06 11:49:09
  */
 // ==UserScript==
 // @name         cms backend management
 // @name:zh-CN   cms内部管理
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  cms内部管理
 // @author       zzailianlian
 // @match        http://backend.meitun-test.com/index
-// @require      https://code.jquery.com/jquery-3.5.1.min.js
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=meitun-test.com
 // @license      MIT
 // @run-at document-idle
@@ -70,7 +69,7 @@
       // 初始化cms管理tab
       $("a:contains('v2.0CMS页面管理')").click()
       // GM_setValue(CMS_PAGE, $('#menubar_tabs').find('h3').last().find('a').attr('id'));
-      console.log('---',$("a:contains('v2.0CMS页面管理')").attr('id'))
+      console.log('---',$("a:contains('v2.0CMS页面管理')").attr('id'),$("a:contains('v2.0CMS页面管理')"),$("a:contains('v2.0CMS系统模板')").click)
       $("a:contains('v2.0CMS系统模板')").click()
     })
   

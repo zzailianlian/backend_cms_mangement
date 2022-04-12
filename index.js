@@ -2,26 +2,72 @@
  * @Description: File Description
  * @FilePath: /study/temperMonkey/backend_cms_mangement/index.js
  * @LastEditors: zzz
- * @LastEditTime: 2022-04-06 11:49:09
+ * @LastEditTime: 2022-04-12 20:51:52
  */
 // ==UserScript==
 // @name         cms backend management
 // @name:zh-CN   cms内部管理
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  cms内部管理
 // @author       zzailianlian
+// @require https://code.jquery.com/jquery-3.5.1.min.js
 // @match        http://backend.meitun-test.com/index
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=meitun-test.com
 // @license      MIT
 // @run-at document-idle
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @grant        GM_addElement
 // ==/UserScript==
 
 (function () {
   'use strict';
-  window.onload=function(){
+
+  const MODULE_ID = '783'
+  const cmsGlobal = {}
+  var sc = document.createElement("script");
+  sc.setAttribute("type", "text/javascript");
+  sc.src = "https://code.jquery.com/jquery-3.5.1.min.js";
+  // document.getElementsByTagName('body')[0].appendChild(sc);
+
+  if (window.ActiveXObject || "ActiveXObject" in window) { //判断是否是ie
+    if (sc.readyState) { //判断是否支持readyState
+      sc.onreadystatechange = function () {
+        if (this.readyState == "loaded" || this.readyState == "complete") {
+          console.log("ie10及以下加载完成");
+          onloaded()
+        }
+      }
+    } else {
+      sc.onload = function () {
+        console.log("ie11及Edge加载完成");
+        onloaded()
+      }
+    }
+  } else {    //不是ie
+    sc.onload = function () {
+      console.log('非ie浏览器加载完成');
+      onloaded()
+    }
+  }
+
+  function clearActivitedTab() {
+    if ($('#menubar_tabs span[title="关闭"]').length) {
+      $.map($('#menubar_tabs span[title="关闭"]'), function (item) {
+        item.click()
+      })
+    }
+  }
+
+  function init() {
+
+  }
+
+  var onloaded = function () {
+    var jqVersion = $.fn.property || $().property || jQuery.fn.jquery
+    console.log('version版本：', jqVersion)
+
     const wrapperToolsContainer = $('<div id="wrapperToolsContainer"></div>')
     wrapperToolsContainer.css({
       position: 'fixed',
@@ -45,9 +91,9 @@
       border: '1px solid #27ae60',
       zIndex: 999,
       marginBottom: '24px',
-      cursor:'pointer'
+      cursor: 'pointer'
     });
-  
+
     const syncConfig = $('<div>同步配置到页面</div>')
     syncConfig.css({
       padding: '12px',
@@ -57,41 +103,108 @@
       fontSize: '14px',
       border: '1px solid #27ae60',
       zIndex: 999,
-      cursor:'pointer'
-  
+      cursor: 'pointer'
+
     });
-  
-    $('body').append(wrapperToolsContainer)
+
     wrapperToolsContainer.append(initCMSModule).append(syncConfig)
-  
-    const CMS_PAGE = 'CMS_PAGE'
+    $('body').append(wrapperToolsContainer)
+
+    const CMS_PAGE_TAB_ID = 'CMS_PAGE_TAB_ID'
+    const CMS_MODULE_TAB_ID = 'CMS_MODULE_TAB_ID'
+    function getLastTabId() {
+      return $('#menubar_tabs').find('h3').last().find('a').attr('id')
+    }
     initCMSModule.on('click', () => {
+      clearActivitedTab();
       // 初始化cms管理tab
-      $("a:contains('v2.0CMS页面管理')").click()
-      // GM_setValue(CMS_PAGE, $('#menubar_tabs').find('h3').last().find('a').attr('id'));
-      console.log('---',$("a:contains('v2.0CMS页面管理')").attr('id'),$("a:contains('v2.0CMS页面管理')"),$("a:contains('v2.0CMS系统模板')").click)
-      $("a:contains('v2.0CMS系统模板')").click()
+      //$("a:contains('v2.0CMS页面管理')").click()
+      // console.log('我是  jjjj',$("a:contains('v2.0CMS页面管理')").attr('id').split('_').slice(-1)[0])
+      $("a:contains('v2.0CMS页面管理')").get(0).click()
+      GM_setValue(CMS_PAGE_TAB_ID, getLastTabId());
+      $("a:contains('v2.0CMS系统模板')").get(0).click()
+      GM_setValue(CMS_MODULE_TAB_ID, getLastTabId());
+      console.log('我是GM_GETVAULE', GM_getValue(CMS_PAGE_TAB_ID), GM_getValue(CMS_MODULE_TAB_ID))
     })
-  
+
+    function getFrameJQ(id) {
+      // mainIframe_modifyPage
+      // mainIframe_tabli_
+      return $(document.getElementById(id).contentWindow.document.body)
+    }
+    function getIdFromTab(tabidArr) {
+      if (!tabidArr || tabidArr instanceof Array) {
+        return ''
+      }
+      return tabidArr.split('_').slice(-1) || ''
+    }
+    function loop(judgeFn = () => { }, callbackFn = () => { }, delay = 1000) {
+      let threshold = 10 * 1000; // 30s
+      console.log("interval start")
+      let startTimeStamp = 0;
+      const intervalTimer = window.setInterval(function () {
+        console.log("interval running")
+        startTimeStamp += 1000;
+        if (judgeFn()) {
+          console.log("interval end")
+          callbackFn()
+          window.clearInterval(intervalTimer)
+          return;
+        }
+        if (startTimeStamp >= threshold) {
+          window.clearInterval(intervalTimer)
+          return new Error('loop超时')
+        }
+      }, 1000)
+    }
+
+
+
     syncConfig.on('click', () => {
       // 同步配置模板到页面
-      console.log('我是同步',$("input[value='保      存']"))
-      // $("input[value='保      存']").click()
-      // $('#menubar_tabs').find('a:contains("v2.0CMS页面管理")').click()
-      // $(document.getElementById('mainIframe_tabli_780').contentWindow.document.body).find('tr').find('td:contains("783")').parent().find('button:contains("编辑")').click()
-      // setTimeout(function () {
-      //   $(document.getElementById('mainIframe_modifyPage783').contentWindow.document.body).find('input[value="下一步"]').last().click()
-      //   setTimeout(function () {
-      //     $(document.getElementById('mainIframe_modifyPage783').contentWindow.document.body).find('input[value="保存"]').last().click()
-      //     setTimeout(function () {
-      //       $(document.getElementById('mainIframe_tabli_780').contentWindow.document.body).find('tr').find('td:contains("783")').parent().find('button:contains("同步线上")').click()
-      //     }, 2000)
-      //   }, 2000);
-      // }, 2000)
+      const pendingSyncList = $('button:contains("同步线上")')
+      console.log('我是同步列表', pendingSyncList, window.performance)
+      const cmsPageFrameJq = getFrameJQ('mainIframe_tabli_' + getIdFromTab(GM_getValue(CMS_PAGE_TAB_ID)))
+      cmsGlobal['CMS_PAGE_FRAME_JQ'] = cmsPageFrameJq
+      // 编辑页面
+      cmsPageFrameJq.find('tr').find('td:contains(' + MODULE_ID + ')').parent().find('button:contains("编辑")').click()
+
+      loop(function () {
+        return !!$('#mainIframe_modifyPage' + MODULE_ID).length
+      }, function () {
+        // 存在该iframe说明已经【编辑点击之后调起iframe】
+        const cmsPageModalFrameJq = getFrameJQ('mainIframe_modifyPage' + MODULE_ID)
+        cmsGlobal['CMS_PAGE_MODAL_FRAME_JQ'] = cmsPageModalFrameJq;
+        loop(function () {
+          // 副标题存在数据，说明【编辑操作】掉接口回填成功
+          return !!$(getFrameJQ('mainIframe_modifyPage' + MODULE_ID)).find('input[placeholder="如：APP新客活动"]').last().attr('value')
+          // return ()=>!!$(cmsGlobal['CMS_PAGE_MODAL_FRAME_JQ']).find('input[placeholder="如：APP新客活动"]').last().attr('value')
+        }, function () {
+          // 下一步
+          $(getFrameJQ('mainIframe_modifyPage' + MODULE_ID)).find('input[value="下一步"]').last().click();
+          //  $(cmsGlobal['CMS_PAGE_MODAL_FRAME_JQ']).find('input[value="下一步"]').last().click();
+          loop(function () {
+            // 如果模拟器中存在模板数据，说明【下一步操作】掉接口回填成功
+            return !!$(getFrameJQ('mainIframe_modifyPage' + MODULE_ID)).find('.cms-show').length
+            // return ()=>!!$(cmsGlobal['CMS_PAGE_MODAL_FRAME_JQ']).find('.cms-show').length
+          },
+            function () {
+              // 保存
+              $(getFrameJQ('mainIframe_modifyPage' + MODULE_ID)).find('input[value="保存"]').last().click()
+              //  $(cmsGlobal['CMS_PAGE_MODAL_FRAME_JQ']).find('input[value="保存"]').last().click()
+              loop(function () {
+                // 如果存在同步线上按钮，说明【保存操作】掉接口回填成功
+                return !!$(getFrameJQ('mainIframe_tabli_' + getIdFromTab(GM_getValue(CMS_PAGE_TAB_ID)))).find('tr').find('td:contains(' + MODULE_ID + ')').parent().find('button:contains("同步线上")').length
+                // return ()=>!!$(cmsGlobal['CMS_PAGE_FRAME_JQ']).find('tr').find('td:contains(' + MODULE_ID + ')').parent().find('button:contains("同步线上")').length
+              }, function () {
+                // 同步线上
+                $(getFrameJQ('mainIframe_tabli_' + getIdFromTab(GM_getValue(CMS_PAGE_TAB_ID)))).find('tr').find('td:contains(' + MODULE_ID + ')').parent().find('button:contains("同步线上")').click()
+                // $(cmsGlobal['CMS_PAGE_FRAME_JQ']).find('tr').find('td:contains(' + MODULE_ID + ')').parent().find('button:contains("同步线上")').click()
+              })
+            })
+        })
+      })
     })
   }
-  
-
-
-
+  onloaded()
 })();

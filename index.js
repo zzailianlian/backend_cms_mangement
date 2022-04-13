@@ -2,7 +2,7 @@
  * @Description: File Description
  * @FilePath: /study/temperMonkey/backend_cms_mangement/index.js
  * @LastEditors: zzz
- * @LastEditTime: 2022-04-12 21:48:15
+ * @LastEditTime: 2022-04-13 15:48:44
  */
 // ==UserScript==
 // @name         cms backend management
@@ -65,8 +65,8 @@
 
     const wrapperToolsContainer = $('<div id="wrapperToolsContainer">更新的页面id：<input type="number" style="margin-bottom:8px;"/></div>')
 
+    wrapperToolsContainer.find('input').attr('value','783')
 
-    const MODULE_ID = wrapperToolsContainer.find('input').attr('value') || '783'
     wrapperToolsContainer.css({
       position: 'fixed',
       top: 50,
@@ -116,13 +116,10 @@
     initCMSModule.on('click', () => {
       clearActivitedTab();
       // 初始化cms管理tab
-      //$("a:contains('v2.0CMS页面管理')").click()
-      // console.log('我是  jjjj',$("a:contains('v2.0CMS页面管理')").attr('id').split('_').slice(-1)[0])
       $("a:contains('v2.0CMS页面管理')").get(0).click()
       GM_setValue(CMS_PAGE_TAB_ID, getLastTabId());
       $("a:contains('v2.0CMS系统模板')").get(0).click()
       GM_setValue(CMS_MODULE_TAB_ID, getLastTabId());
-      console.log('我是GM_GETVAULE', GM_getValue(CMS_PAGE_TAB_ID), GM_getValue(CMS_MODULE_TAB_ID))
     })
 
     function getFrameJQ(id) {
@@ -160,6 +157,13 @@
 
 
     syncConfig.on('click', () => {
+        const MODULE_ID = $('#wrapperToolsContainer').find('input').get(0).value;
+
+              if(!MODULE_ID){
+               return alert('请输入要更新的页面id')
+              }
+    console.log('MODULE_ID',MODULE_ID)
+
       // 同步配置模板到页面
       const pendingSyncList = $('button:contains("同步线上")')
       console.log('我是同步列表', pendingSyncList, window.performance)

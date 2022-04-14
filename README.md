@@ -1,9 +1,3 @@
-<!--
- * @Description: File Description
- * @FilePath: /study/temperMonkey/backend_cms_mangement/README.md
- * @LastEditors: zzz
- * @LastEditTime: 2022-04-02 17:47:02
--->
 ### **`temperMonkey脚本`** backend的cms管理 
 
 
@@ -22,9 +16,10 @@
 
 #### 同步配置到页面
 
-> 一键同步cms配置到cms页面，省去每次都要更新过配置之后手动更新页面的繁琐操作
+> 输入要同步的页面id，一键同步cms配置到cms页面，省去每次都要更新过配置之后手动更新页面的繁琐操作
 
-* 在cms模块页面修改过脚本之后，点击「同步配置到页面」即可等待该脚本执行同步动作
+* 在cms模块页面修改过脚本之后，输入要同步的页面id
+* 点击「同步配置到页面」即可等待该脚本执行同步动作，期间你会看到自动「下一步」，自动「保存」，自动点击「同步线上」
 * 当然，最关键的一步确认是需要你手动确认的，以免误触
 
 

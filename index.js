@@ -1,8 +1,8 @@
 /*
  * @Description: File Description
- * @FilePath: /study/temperMonkey/backend_cms_mangement/index.js
+ * @FilePath: /backend_cms_mangement/index.js
  * @LastEditors: zzz
- * @LastEditTime: 2022-04-13 15:52:39
+ * @LastEditTime: 2022-04-14 15:10:36
  */
 // ==UserScript==
 // @name         cms backend management
@@ -134,12 +134,12 @@
       return tabidArr.split('_').slice(-1) || ''
     }
     function loop(judgeFn = () => { }, callbackFn = () => { }, delay = 1000) {
-      let threshold = 10 * 1000; // 10s
+      let threshold = 10 * delay; // 10个delay的时间，默认为10s
       console.log("interval start")
       let startTimeStamp = 0;
       const intervalTimer = window.setInterval(function () {
         console.log("interval running")
-        startTimeStamp += 1000;
+        startTimeStamp += delay;
         if (judgeFn()) {
           console.log("interval end")
           callbackFn()
@@ -151,7 +151,7 @@
           console.error('loop超时')
           return new Error('loop超时')
         }
-      }, 1000)
+      }, delay)
     }
 
 

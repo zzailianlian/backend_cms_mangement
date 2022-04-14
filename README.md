@@ -5,6 +5,11 @@
 
 <!-- ![backend的cms管理](./images/backend.png) -->
 
+大概样子如下：
+![image](https://user-images.githubusercontent.com/32048580/163342854-2a14d124-8b53-4504-b56f-e2557935e55d.png)
+
+> UI比较粗糙，也没有细琢磨，重点只关注功能，后续有时间的话可能会搞一个好看的UI出来
+
 ### 使用方法
 
 #### 初始化cms页面

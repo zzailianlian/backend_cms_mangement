@@ -1,5 +1,6 @@
 ### **`temperMonkey脚本`** backend的cms管理 
 
+>! ! 该脚本不再维护，[更*新脚本在这里](https://github.com/zzailianlian/temperMonkey/tree/master/cms_mangement)
 
 > 该脚本旨在用快快捷初始化cms页面并自动同步配置
 
